@@ -44,4 +44,6 @@ def upload_youtube_audio(data: YouTubeRequest):
 
         return {"success": True, "url": audio_url}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    if "yt_dlp failed" in str(e):
+        raise HTTPException(status_code=400, detail="Failed to download from YouTube. The video may be unavailable.")
+    raise HTTPException(status_code=500, detail=str(e))
