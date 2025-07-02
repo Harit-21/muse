@@ -26,7 +26,7 @@ def upload_youtube_audio(data: YouTubeRequest):
 
         file_name = os.path.basename(audio_path)
 
-        # Upload to Supabase Storage
+        # Upload to Supabase Storage (inside "tracks" folder of "music" bucket)
         with open(audio_path, 'rb') as f:
             supabase.storage.from_("music").upload(f"tracks/{file_name}", f, {"content-type": "audio/mpeg"})
 
@@ -44,6 +44,6 @@ def upload_youtube_audio(data: YouTubeRequest):
 
         return {"success": True, "url": audio_url}
     except Exception as e:
-    if "yt_dlp failed" in str(e):
-        raise HTTPException(status_code=400, detail="Failed to download from YouTube. The video may be unavailable.")
-    raise HTTPException(status_code=500, detail=str(e))
+        if "yt_dlp failed" in str(e):
+            raise HTTPException(status_code=400, detail="Failed to download from YouTube. The video may be unavailable.")
+        raise HTTPException(status_code=500, detail=str(e))
