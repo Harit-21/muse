@@ -2,4 +2,4 @@ fastapi
 uvicorn
 python-dotenv
 yt-dlp
-supabase-py
+supabase
